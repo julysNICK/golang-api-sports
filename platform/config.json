@@ -4,5 +4,8 @@
   },
   "main": {
     "message": "Hello From config.json"
+  },
+  "files": {
+    "path": "placeholder/files"
   }
 }
