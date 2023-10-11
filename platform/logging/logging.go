@@ -4,7 +4,6 @@ type LogLevel int
 
 const (
 	Trace LogLevel = iota
-
 	Debug
 	Information
 	Warning
@@ -13,19 +12,18 @@ const (
 )
 
 type Logger interface {
-	Trace(message string)
+	Trace(string)
+	Tracef(string, ...interface{})
 
-	Tracef(format string, args ...interface{})
+	Debug(string)
+	Debugf(string, ...interface{})
 
-	Debug(message string)
-	Debugf(format string, args ...interface{})
+	Info(string)
+	Infof(string, ...interface{})
 
-	Info(message string)
-	Infof(format string, args ...interface{})
+	Warn(string)
+	Warnf(string, ...interface{})
 
-	Warning(message string)
-	Warningf(format string, args ...interface{})
-
-	Panic(message string)
-	Panicf(format string, args ...interface{})
+	Panic(string)
+	Panicf(string, ...interface{})
 }

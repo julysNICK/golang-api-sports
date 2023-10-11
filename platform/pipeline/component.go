@@ -16,11 +16,18 @@ func (mwc *ComponentContext) GetError() error {
 	return mwc.error
 }
 
-
-type MiddlewareComponent interface{
+type MiddlewareComponent interface {
 	Init()
 
 	ProcessRequest(context *ComponentContext, next func(*ComponentContext))
 }
 
+type ServicesMiddlwareComponent interface {
+	Init()
+	ImplementsProcessRequestWithServices()
+}
 
+type ServicesMiddlwareComponentWithInit interface {
+	Init()
+	ImplementsProcessRequestWithServices()
+}

@@ -5,11 +5,12 @@ import (
 	"platform/services"
 )
 
-type ServiceComponent struct{}
+type ServicesComponent struct{}
 
-func (c *ServiceComponent) Init() {}
+func (c *ServicesComponent) Init() {}
 
-func (c *ServiceComponent) ProcessRequest(ctx *pipeline.ComponentContext, next func(*pipeline.ComponentContext)){
+func (c *ServicesComponent) ProcessRequest(ctx *pipeline.ComponentContext,
+	next func(*pipeline.ComponentContext)) {
 	reqContext := ctx.Request.Context()
 	ctx.Request.WithContext(services.NewServiceContext(reqContext))
 	next(ctx)

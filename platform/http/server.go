@@ -3,7 +3,6 @@ package http
 import (
 	"fmt"
 	"net/http"
-
 	"platform/config"
 	"platform/logging"
 	"platform/pipeline"
@@ -14,7 +13,8 @@ type pipelineAdaptor struct {
 	pipeline.RequestPipeline
 }
 
-func (p pipelineAdaptor) serverHttp(writer http.ResponseWriter, request *http.Request) {
+func (p pipelineAdaptor) ServeHTTP(writer http.ResponseWriter,
+	request *http.Request) {
 	p.ProcessRequest(request, writer)
 }
 

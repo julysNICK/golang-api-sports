@@ -1,30 +1,36 @@
 package placeholder
 
 import (
-	"errors"
-	"io"
+	//"io"
+	//"errors"
 	"platform/config"
 	"platform/pipeline"
-	"platform/services"
+
+	//"platform/services"
+	"platform/templates"
 )
 
-type SimpleMessageComponent struct{}
-
-func (sfc *SimpleMessageComponent) Init() {
-
+type SimpleMessageComponent struct {
+    Message string
+    config.Configuration
 }
 
-func (sfc *SimpleMessageComponent) ProcessRequest(ctx *pipeline.ComponentContext, next func(*pipeline.ComponentContext)) {
-	var cfg config.Configuration
+func (lc *SimpleMessageComponent) ImplementsProcessRequestWithServices() {}
 
-	services.GetService(&cfg)
+func (c *SimpleMessageComponent) Init() {
+    c.Message = c.Configuration.GetStringDefault("main:message",  
+        "Default Message") 
+}
 
-	msg, ok := cfg.GetString("main:message")
-
-	if ok {
-		io.WriteString(ctx.ResponseWriter, msg)
-	} else {
-		ctx.Error(errors.New("main:message not found in configuration"))
-	}
-	next(ctx)
+func (c *SimpleMessageComponent) ProcessRequestWithServices(
+    ctx *pipeline.ComponentContext, 
+    next func(*pipeline.ComponentContext), 
+    executor templates.TemplateExecutor)  {
+    err := executor.ExecTemplate(ctx.ResponseWriter, 
+        "simple_message.html", c.Message)
+    if (err != nil) {
+        ctx.Error(err)
+    } else {
+        next(ctx)
+    }
 }
